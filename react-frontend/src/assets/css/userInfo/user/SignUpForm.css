@@ -1,0 +1,115 @@
+/* --- 기본 컨테이너 (반응형) --- */
+.form-container {
+  width: 100%;
+  max-width: 450px; /* 데스크탑에서 폼의 최대 너비 */
+  margin: 20px auto;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  color: #333;
+}
+
+.form-title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* --- 폼 태그 --- */
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* 각 입력 항목(input-group) 사이의 간격 */
+}
+
+/* --- 입력 그룹 (라벨 + 인풋) --- */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* 라벨과 인풋 사이의 간격 */
+}
+
+.input-group label {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* --- 입력창 --- */
+.form-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* --- 버튼 --- */
+.form-button {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.form-button.login {
+  background-color: #007bff;
+}
+.form-button.login:hover {
+  background-color: #0056b3;
+}
+
+.form-button.signup {
+  background-color: #28a745;
+}
+.form-button.signup:hover {
+  background-color: #1e7e34;
+}
+
+/* --- 메시지 (에러/성공) --- */
+.form-message {
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 0.8rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.form-message.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+.form-message.success {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+/* --- 📱 반응형 CSS (모바일) --- */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1.5rem; /* 모바일에선 좌우 여백을 줄임 */
+    margin: 10px;    /* 화면에 거의 꽉 차게 */
+    max-width: 100%;
+  }
+
+  .form-title {
+    font-size: 1.6rem;
+  }
+}

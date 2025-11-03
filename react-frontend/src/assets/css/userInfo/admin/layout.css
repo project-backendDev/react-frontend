@@ -1,0 +1,52 @@
+/* --- 1. 기본 (모바일): 1열 수직 구조 --- */
+.admin-layout-wrapper {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "content"
+    "footer";
+  /* 'sidebar'가 숨겨져 있으므로 기본 영역에서 제외 */
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+  transition: grid-template-columns 0.3s ease-in-out;
+}
+
+.main-header { grid-area: header; z-index: 1035; }
+.main-sidebar {
+  grid-area: sidebar;
+  transform: translateX(-250px); /* 왼쪽으로 250px 숨기기 */
+  transition: transform 0.3s ease-in-out;
+  z-index: 1040;
+}
+.admin-content-wrapper { grid-area: content; background-color: #f4f6f9; }
+.main-footer { grid-area: footer; }
+
+/* 2. 모바일에서 사이드바가 열렸을 때 (sidebar-open 클래스) */
+.admin-layout-wrapper.sidebar-open {
+  grid-template-areas:
+    "sidebar header"
+    "sidebar content"
+    "sidebar footer";
+  grid-template-columns: 250px 1fr;
+}
+.admin-layout-wrapper.sidebar-open .main-sidebar {
+  transform: translateX(0); /* 숨겼던 사이드바 보이기 */
+}
+
+/* 3. 태블릿/PC (992px 이상) */
+@media (min-width: 992px) {
+  .admin-layout-wrapper {
+    grid-template-areas:
+      "header header"
+      "sidebar content"
+      "footer footer";
+    grid-template-columns: 250px 1fr;
+  }
+  .main-sidebar {
+    transform: translateX(0);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+  }
+}
