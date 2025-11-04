@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import '../../../../assets/css/userInfo/user/SignUpForm.css'; 
+import '../../../../assets/css/userInfo/user/SignUp.css'; 
 
-function SignUpForm() {
+function SignUp() {
   // 페이지 이동 함수를 선언
   const navigate = useNavigate();
 
@@ -175,4 +175,4 @@ function SignUpForm() {
   );
 }
 
-export default SignUpForm;
+export default SignUp;

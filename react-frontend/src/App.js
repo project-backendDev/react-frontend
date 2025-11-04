@@ -4,7 +4,8 @@ import { Routes, Route } from 'react-router-dom';
 
 import MainPage from './modules/main/MainPage';
 // [사용자]
-import SignUpForm from './modules/userInfo/components/user/SignUpForm';
+import SignUp from './modules/userInfo/components/user/SignUp';
+import Login from './modules/userInfo/components/user/Login';
 
 // [관리자]
 import UserList from './modules/userInfo/components/admin/UserList';
@@ -17,9 +18,14 @@ function App() {
     <div className="App">
       <Routes>
         
-        {/* --- 1. 일반 사용자 페이지 (레이아웃 없음) --- */}
+        {/* 일반 사용자 페이지 --- */}
         <Route path="/" element={<MainPage />} />
-        <Route path="/signup" element={<SignUpForm />} />
+
+        {/* 회원가입 페이지 */}
+        <Route path="/signUp" element={<SignUp />} />
+
+        {/* 로그인 페이지 */}
+        <Route path="/login" element={<Login />} />
         
         {/* --- 2. 관리자 페이지 (레이아웃 적용) --- */}
         <Route path="/mngr" element={<AdminLayout />}>

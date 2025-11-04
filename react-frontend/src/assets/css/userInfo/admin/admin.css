@@ -35,6 +35,16 @@ a:hover { color: #0056b3; }
   box-shadow: 0 5px 10px rgba(0,0,0,.2);
   transition: transform 0.3s ease-in-out;
 }
+.sidebar-backdrop {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 1005; 
+}
 .admin-content-wrapper {
   margin-left: var(--sidebar-width);
   padding-top: var(--header-height);
@@ -44,6 +54,10 @@ a:hover { color: #0056b3; }
   transition: margin-left 0.3s ease-in-out;
 }
 .main-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem 1rem;
   position: fixed; bottom: 0; right: 0;
   left: var(--sidebar-width);
   height: var(--footer-height);
@@ -68,9 +82,15 @@ a:hover { color: #0056b3; }
   .main-footer {
     margin-left: 0;
   }
+
+  .main-header, .main-footer { left : 0; }
   /* 햄버거 버튼(토글) 클릭 시 (sidebar-open 클래스) */
   .admin-layout-wrapper.sidebar-open .main-sidebar {
     transform: translateX(0); /* 사이드바 보이기 */
+  }
+
+  .admin-layout-wrapper.sidebar-open .sidebar-backdrop {
+    display: block; 
   }
 }
 

@@ -1,7 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 function AdminHeader({ onToggleSidebar }) {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    const isConfirm = window.confirm('로그아웃 하시겠습니까?');
+
+    if (isConfirm) {
+      // localStorage에서 token 삭제
+      localStorage.removeItem('token');
+      alert('로그아웃 되었습니다.');
+      navigate('/');
+    }
+  }
+
   return (
     <nav className="main-header navbar navbar-expand navbar-white">
       {/* 1. 왼쪽 네비게이션 */}
@@ -12,7 +27,7 @@ function AdminHeader({ onToggleSidebar }) {
             className="nav-link" 
             data-widget="pushmenu" 
             role="button"
-            onClick={onToggleSidebar} // 👈 토글 함수 연결
+            onClick={onToggleSidebar}
           >
             <i className="fas fa-bars"></i>
           </span>
@@ -25,7 +40,7 @@ function AdminHeader({ onToggleSidebar }) {
       {/* 2. 오른쪽 네비게이션 */}
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
-          <span className="nav-link" role="button">
+          <span className="nav-link" role="button" onClick={handleLogout}>
             <i className="fas fa-sign-out-alt" style={{marginRight: '5px'}}></i>
             Logout
           </span>

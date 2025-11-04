@@ -1,0 +1,110 @@
+/* --- 1. 기본 (PC: 992px 이상) --- */
+.login-form-container {
+  width: 100%;
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  color: #333;
+}
+
+.login-form-title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.login-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.login-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-input-group label {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.login-form-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* 로그인 버튼 (파란색) */
+.login-form-button {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  background-color: #007bff;
+}
+.login-form-button:hover {
+  background-color: #0056b3;
+}
+
+/* 에러 메시지 */
+.login-form-message {
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 0.8rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.login-form-message.error { color: #721c24; background-color: #f8d7da; }
+
+/* 하단 링크 (회원가입) */
+.login-toggle-link-container {
+  text-align: center;
+  margin-top: 1rem;
+}
+.login-toggle-link {
+  background-color: transparent;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+
+/* --- 2. 태블릿 (991px 이하) --- */
+@media (max-width: 991.98px) {
+  .login-form-container {
+    max-width: 450px;
+  }
+}
+
+/* --- 3. 모바일 (767px 이하) --- */
+@media (max-width: 767.98px) {
+  .login-form-container {
+    max-width: 100%;
+    margin: 10px;
+    padding: 1.5rem;
+    box-shadow: none;
+    border: 1px solid #eee;
+  }
+  .login-form-title {
+    font-size: 1.6rem;
+  }
+  .login-form-body {
+    gap: 1rem;
+  }
+}
