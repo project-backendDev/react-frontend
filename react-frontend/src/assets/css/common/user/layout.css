@@ -1,0 +1,135 @@
+/* --- 1. 색상 변수 (변경 가능) --- */
+:root {
+  --user-header-bg: #ffffff;
+  --user-footer-bg: #2c3e50;
+  --user-header-text: #333333;
+  --user-footer-text: #ecf0f1;
+  --user-primary-link: #007bff;
+  --user-container-width: 1140px;
+  --user-header-height: 60px; /* 헤더 높이 고정 */
+}
+
+/* --- 2. 기본 (PC) 스타일 --- */
+
+.user-layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.user-header {
+  width: 100%;
+  background-color: var(--user-header-bg);
+  border-bottom: 1px solid #eaeaea;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  /* 👇 헤더를 스크롤과 무관하게 상단에 고정 */
+  position: sticky; 
+  top: 0;
+  z-index: 100;
+}
+
+.user-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: var(--user-container-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: var(--user-header-height);
+}
+
+.user-header .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--user-header-text);
+  text-decoration: none;
+}
+
+/* PC 네비게이션 (가로 정렬) */
+.user-header .nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+.user-header .nav-links a {
+  text-decoration: none;
+  color: var(--user-primary-link);
+  font-weight: 500;
+  padding: 0.5rem 0;
+}
+.user-header .nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* 햄버거 버튼 (PC에서는 숨김) */
+.hamburger-toggle {
+  display: none; /* 👈 PC에서는 숨김 */
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--user-header-text);
+  cursor: pointer;
+}
+
+/* 콘텐츠/푸터 (기존과 동일) */
+.user-content-wrapper {
+  flex-grow: 1;
+  width: 100%;
+  max-width: var(--user-container-width);
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.user-footer {
+  width: 100%;
+  background-color: var(--user-footer-bg);
+  color: var(--user-footer-text);
+  padding: 2rem;
+  text-align: center;
+  box-sizing: border-box;
+  margin-top: 2rem;
+}
+
+/* --- 3. 태블릿 & 모바일 반응형 (767px 이하) --- */
+@media (max-width: 767.98px) {
+  .user-header-container {
+    padding: 0 1rem; /* 모바일 좌우 여백 */
+  }
+
+  /* 햄버거 버튼 (모바일/태블릿에서 보이기) */
+  .hamburger-toggle {
+    display: block; /* 👈 모바일/태블릿에서 보이기 */
+  }
+
+  /* 네비게이션 링크 (모바일/태블릿) */
+  .user-header .nav-links {
+    display: none; /* 👈 1. 평소에는 숨김 */
+    
+    /* 드롭다운 메뉴로 스타일 변경 */
+    position: absolute;
+    top: var(--user-header-height); /* 헤더 바로 아래 */
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: var(--user-header-bg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    flex-direction: column; /* 세로로 쌓기 */
+    padding: 1rem;
+    gap: 1rem; /* 링크 사이 간격 */
+    border-top: 1px solid #eaeaea;
+  }
+  .user-header .nav-links a {
+    padding: 0.5rem 1rem; /* 모바일 링크 패딩 */
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* 햄버거 버튼 클릭 시 (menu-open 클래스가 추가되면) */
+  .user-header.menu-open .nav-links {
+    display: flex; /* 👈 2. 숨겼던 메뉴를 보여줌 */
+  }
+
+  .user-content-wrapper {
+    padding: 1rem; /* 모바일 콘텐츠 여백 */
+  }
+}

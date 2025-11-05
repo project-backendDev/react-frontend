@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import '../../../../assets/css/userInfo/user/Login.css'
+import '../../../assets/css/login/user/Login.css';
 
 function Login() {
     const navigate = useNavigate();
@@ -37,9 +37,6 @@ function Login() {
 
     axios.post('/api/login', formData)
         .then(response => {
-            console.log("TRUE!!");
-            console.log(response.data);
-
             // response의 data를 가져온다
             const { accessToken } = response.data;
 
@@ -72,14 +69,14 @@ return (
     <div className="login-form-container">
       <h2 className="login-form-title">로그인</h2>
 
-      {/* 7-1. message.text에 내용이 있을 때만 메시지 박스를 렌더링 */}
+      {/* message.text에 내용이 있을 때만 메시지 박스를 렌더링 */}
       {message.text && (
         <div className={`login-form-message ${message.type === 'error' ? 'error' : 'success'}`}>
           {message.text}
         </div>
       )}
 
-      {/* 7-2. 폼 태그. submit 이벤트가 발생하면 handleSubmit 함수를 호출 */}
+      {/* 폼 태그. submit 이벤트가 발생하면 handleSubmit 함수를 호출 */}
       <form onSubmit={handleSubmit} className="login-form-body">
         
         <div className="login-input-group">

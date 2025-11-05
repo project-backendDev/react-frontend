@@ -1,0 +1,109 @@
+/* --- 1. 기본 (PC: 992px 이상) --- */
+.profile-form-container {
+  width: 100%;
+  max-width: 600px; /* PC에서 폼 너비 */
+  margin: 40px auto;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  color: #333;
+}
+
+.profile-form-title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.profile-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile-input-group label {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* 비활성화된 입력창 (아이디) */
+.profile-form-input[disabled] {
+  background-color: #f4f6f9;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.profile-form-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* 정보 수정 버튼 */
+.profile-form-button {
+  width: 100%;
+  padding: 0.9rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  background-color: #007bff;
+}
+.profile-form-button:hover {
+  background-color: #0056b3;
+}
+
+/* 에러/성공 메시지 */
+.profile-form-message {
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 0.8rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.profile-form-message.error { color: #721c24; background-color: #f8d7da; }
+.profile-form-message.success { color: #155724; background-color: #d4edda; }
+
+/* 로딩 스피너 (임시) */
+.loading-spinner {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 4rem;
+}
+
+/* --- 2. 태블릿 (991px 이하) --- */
+@media (max-width: 991.98px) {
+  .profile-form-container {
+    max-width: 600px;
+  }
+}
+
+/* --- 3. 모바일 (767px 이하) --- */
+@media (max-width: 767.98px) {
+  .profile-form-container {
+    max-width: 100%;
+    margin: 10px;
+    padding: 1.5rem;
+    box-shadow: none;
+    border: 1px solid #eee;
+  }
+  .profile-form-title {
+    font-size: 1.8rem;
+  }
+}

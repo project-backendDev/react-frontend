@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 function main() {
   return (
-    <div style={{ textAlign : 'center' }}>
-        <h1>메인 페이지</h1>
+    <div style={{ textAlign : 'center' }}>      
+        {/* <h1>메인 페이지</h1>
 
         <Link to="/signup">
             <button style={homeButtonStyle}>회원가입</button>
@@ -12,7 +12,7 @@ function main() {
 
         <Link to="/login">
             <button style={homeButtonStyle}>로그인</button>
-        </Link>
+        </Link> */}
     </div>
   )
 }
