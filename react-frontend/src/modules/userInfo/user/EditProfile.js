@@ -78,6 +78,7 @@ function EditProfile() {
         .then(response => {
             setMessage({ type: 'success', text: response.data });
             alert('회원정보가 성공적으로 수정되었습니다.');
+            navigate("/");
         })
         .catch(error => {
             if (error.response) { // 백엔드가 보낸 에러 (예: 이메일 중복, @Valid 실패)
