@@ -52,9 +52,14 @@
   box-sizing: border-box;
 }
 
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
 /* 정보 수정 버튼 */
 .profile-form-button {
-  width: 100%;
+  width: 45%;
   padding: 0.9rem;
   margin-top: 1rem;
   border: none;
@@ -85,6 +90,51 @@
   text-align: center;
   font-size: 1.5rem;
   padding: 4rem;
+}
+
+/* 버튼들을 묶는 그룹 */
+.profile-button-group {
+    display: flex;
+    gap: 10px; /* 버튼 사이 간격 */
+    margin-top: 20px;
+}
+
+/* 모든 버튼의 기본 스타일 (정보 수정 버튼) */
+.profile-form-button {
+    flex: 1; /* 버튼들이 공간을 균등하게 차지 */
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #007bff; /* 예: 파란색 */
+    color: white;
+    transition: background-color 0.2s;
+}
+
+.profile-form-button:hover {
+    background-color: #0056b3;
+}
+
+/* 취소 버튼 스타일 */
+.profile-form-button.cancel-button {
+    background-color: #6c757d; /* 회색 */
+    border-color: #6c757d;
+}
+
+.profile-form-button.cancel-button:hover {
+    background-color: #5a6268;
+}
+
+/* 회원탈퇴 버튼 스타일 */
+.profile-form-button.withdraw-button {
+    background-color: #dc3545; /* 붉은색 */
+    border-color: #dc3545;
+}
+
+.profile-form-button.withdraw-button:hover {
+    background-color: #c82333;
 }
 
 /* --- 2. 태블릿 (991px 이하) --- */

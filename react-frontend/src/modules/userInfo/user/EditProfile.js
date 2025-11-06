@@ -52,6 +52,7 @@ function EditProfile() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    // 수정버튼 클릭 시
     const handleSubmit = (e) => {
         e.preventDefault();
         setMessage({ type : '', text : '' });
@@ -71,9 +72,9 @@ function EditProfile() {
         };
 
         axios.put('/api/user/me', requestData, {
-            headers : {
-                'Authorization' : `Bearer ${token}`
-            }
+          headers : {
+              'Authorization' : `Bearer ${token}`
+          }
         })
         .then(response => {
             setMessage({ type: 'success', text: response.data });
@@ -89,63 +90,128 @@ function EditProfile() {
         });
     }
 
+    // 취소 버튼 핸들러
+    const handleCancel = () => {
+        navigate(-1); // 브라우저 "뒤로 가기"
+    };
+
+    // 회원탈퇴 핸들러
+    const handleDelete = () => {
+      if (!window.confirm('정말로 회원탈퇴를 하시겠습니까?\n탈퇴 후 복구가 불가능합니다.')) {
+        return;
+      }
+
+       // LocalStorage에서 토큰 정보 가져옴
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            alert("로그인 후 이용이 가능합니다.");
+            navigate("/login");
+            return;
+        }
+
+        axios.delete('/api/user/me', {
+          headers : {
+              'Authorization' : `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          alert('회원탈퇴가 성공적으로 완료되었습니다.');
+          localStorage.removeItem('token'); // 회원탈퇴 후 토큰 삭제
+          navigate('/');
+        })
+        .catch(error => {
+          const errorText = (error.response && error.response.data.message) ? error.response.data.message : '탈퇴 처리 중 오류가 발생했습니다.';
+                
+          setMessage({ type: 'error', text: errorText });
+        })
+    }
+
 return (
-    <div className="profile-form-container">
-      <h2 className="profile-form-title">회원정보 수정</h2>
+        <div className="profile-form-container">
+            <h2 className="profile-form-title">회원정보 수정</h2>
 
-      {message.text && (
-        <div className={`profile-form-message ${message.type === 'error' ? 'error' : 'success'}`}>
-          {message.text}
+            {message.text && (
+                <div className={`profile-form-message ${message.type === 'error' ? 'error' : 'success'}`}>
+                    {message.text}
+                </div>
+            )}
+
+            {loading ? (
+                <p style={{ textAlign: 'center' }}>데이터를 불러오는 중입니다...</p>
+            ) : (
+                <form onSubmit={handleSubmit} className="profile-form-body">
+                    
+                    {/* 아이디 (수정 불가) */}
+                    <div className="profile-input-group">
+                        <label htmlFor="userId">아이디 (수정 불가)</label>
+                        <input
+                            type="text"
+                            id="userId"
+                            name="userId"
+                            className="profile-form-input"
+                            value={formData.userId}
+                            disabled
+                        />
+                    </div>
+
+                    {/* 이름 */}
+                    <div className="profile-input-group">
+                        <label htmlFor="userNm">이름</label>
+                        <input
+                            type="text"
+                            id="userNm"
+                            name="userNm"
+                            className="profile-form-input"
+                            value={formData.userNm} 
+                            onChange={handleChange} 
+                            required
+                        />
+                    </div>
+
+                    {/* 이메일 */}
+                    <div className="profile-input-group">
+                        <label htmlFor="userEmail">이메일</label>
+                        <input
+                            type="email"
+                            id="userEmail"
+                            name="userEmail"
+                            className="profile-form-input"
+                            value={formData.userEmail}
+                            onChange={handleChange} 
+                            required
+                        />
+                    </div>
+
+                    {/* [수정] 버튼 그룹 */}
+                    <div className="profile-button-group">
+                        {/* 정보 수정 버튼 */}
+                        <button type="submit" className="profile-form-button">
+                            정보 수정
+                        </button>
+                        
+                        {/* 취소 버튼 */}
+                        <button 
+                            type="button" // submit 방지
+                            className="profile-form-button cancel-button"
+                            onClick={handleCancel}
+                        >
+                            취소
+                        </button>
+                        
+                        {/* 회원탈퇴 버튼 */}
+                        <button 
+                            type="button" // submit 방지
+                            className="profile-form-button withdraw-button"
+                            onClick={handleDelete}
+                        >
+                            회원탈퇴
+                        </button>
+                    </div>
+                </form>
+            )}
         </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="profile-form-body">
-        
-        {/* 아이디는 수정 불가(disabled)로 표시 */}
-        <div className="profile-input-group">
-          <label htmlFor="userId">아이디 (수정 불가)</label>
-          <input
-            type="text"
-            id="userId"
-            name="userId"
-            className="profile-form-input"
-            value={formData.userId} // 👈 state 값
-            disabled // 👈 수정 불가
-          />
-        </div>
-
-        <div className="profile-input-group">
-          <label htmlFor="userNm">이름</label>
-          <input
-            type="text"
-            id="userNm"
-            name="userNm"
-            className="profile-form-input"
-            value={formData.userNm} 
-            onChange={handleChange} 
-            required
-          />
-        </div>
-
-        <div className="profile-input-group">
-          <label htmlFor="userEmail">이메일</label>
-          <input
-            type="email"
-            id="userEmail"
-            name="userEmail"
-            className="profile-form-input"
-            value={formData.userEmail}
-            onChange={handleChange} 
-            required
-          />
-        </div>
-
-        <button type="submit" className="profile-form-button">
-          정보 수정
-        </button>
-      </form>
-    </div>
-  );
+    );
 }
 
 export default EditProfile;

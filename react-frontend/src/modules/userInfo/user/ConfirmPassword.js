@@ -29,7 +29,9 @@ function ConfirmPassword() {
         const requestData = { userPw: password };
 
         axios.post('/api/user/confirm-password', requestData, {
+          headers : {
             'Authorization': `Bearer ${token}`
+          }
         })
         .then(response => {
             // 탭을 닫으면 사라지는 sessionStorage 사용
@@ -40,7 +42,7 @@ function ConfirmPassword() {
         })
         .catch(error => {
             if (error.response) {
-                setMessage({ type : 'error', text : error.response.data });
+                setMessage({ type : 'error', text : error.response.data.message });
             } else {
                 setMessage({ type : 'error', text : '네트워크 오류가 발생했습니다.' });
             }

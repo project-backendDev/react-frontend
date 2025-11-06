@@ -57,11 +57,12 @@ function Login() {
             }
         })
         .catch(error => {
-            if (error.response) {
-                setMessage({ type : 'error', text : error.response.data });
-            } else {
-                setMessage({ type : 'error', text : '네트워크 오류가 발생했습니다.'});
-            }
+          console.log("ERROR...   " + error.response.data);
+          if (error.response) {
+              setMessage({ type : 'error', text : error.response.data });
+          } else {
+              setMessage({ type : 'error', text : '네트워크 오류가 발생했습니다.'});
+          }
         });
 }
 
