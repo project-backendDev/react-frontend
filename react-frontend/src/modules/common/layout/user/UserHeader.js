@@ -57,7 +57,7 @@ function UserHeader() {
           {isLoggedIn ? (
             <>
               {/* 관리자 페이지 링크 (예시) */}
-              <Link to="/editProfile" onClick={handleLinkClick}>회원정보수정</Link>
+              <Link to="/confirmPassword" onClick={handleLinkClick}>회원정보수정</Link>
               {/* 로그아웃 (Link가 아닌 a 태그나 button 사용) */}
               <a href="#!" onClick={handleLogout} style={{ cursor: 'pointer' }}>
                 로그아웃

@@ -35,7 +35,7 @@ function Login() {
 	        return;
 	    }
 
-    axios.post('/api/login', formData)
+    axios.post('/api/user/login', formData)
         .then(response => {
             // response의 data를 가져온다
             const { accessToken } = response.data;

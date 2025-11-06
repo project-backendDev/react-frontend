@@ -12,6 +12,7 @@ import EditProfile from './modules/userInfo/user/EditProfile';
 // [관리자]
 import AdminLayout from './modules/common/layout/admin/AdminLayout';
 import UserList from './modules/userInfo/admin/UserList';
+import ConfirmPassword from './modules/userInfo/user/ConfirmPassword';
 
 const AdminDashboard = () => <div className="content-header"><h1>대시보드</h1></div>;
 
@@ -23,6 +24,7 @@ function App() {
         {/* 일반 사용자 페이지 --- */}
         <Route path="/" element={<UserLayout />}>
 
+          {/* 메인페이지 */}
           <Route index element={<MainPage />} />
 
           {/* 회원가입 페이지 */}
@@ -31,7 +33,10 @@ function App() {
           {/* 로그인 페이지 */}
           <Route path="/login" element={<Login />} />
 
-          {/* 회원정보 수정 페이지 */}
+          {/* 비밀번호 확인 페이지 */}
+          <Route path="/confirmPassword" element={<ConfirmPassword />} />
+
+          {/* 회원정보수정 페이지 */}
           <Route path="/editProfile" element={<EditProfile />} />
         </Route>
         

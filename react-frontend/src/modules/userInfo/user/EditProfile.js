@@ -35,7 +35,7 @@ function EditProfile() {
             setLoading(false);
         })
         .catch(error => {
-            console.error("정보 조회 실패:", error);
+            // console.error("정보 조회 실패:", error);
             setMessage({ type: 'error', text: '정보를 불러오는데 실패했습니다.' });
             setLoading(false);
 

@@ -86,7 +86,7 @@ function SignUp() {
       userEmail: formData.userEmail
     };
 
-    axios.post('/api/signup', requestData)
+    axios.post('/api/user/signup', requestData)
       .then(response => {
             // 성공 시
             setMessage({ type: 'success', text: response.data });
