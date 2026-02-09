@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import api from '../../common/api/AxiosConfig'
 import '../../../assets/css/login/user/Login.css';
 
 function Login() {
@@ -21,44 +21,51 @@ function Login() {
 
 	const handleSubmit = (e) => {
 	    // e.preventDefault(): 폼 제출 시 브라우저가 기본적으로 수행하는 "새로고침" 동작을 막습니다.
-      e.preventDefault();
+	    e.preventDefault();
 	    // 기존 메시지를 초기화
-      setMessage({ type: '', text: '' });
+	    setMessage({ type: '', text: '' });
 
-      if (formData.userId.trim() === '') {
-          setMessage({ type : 'error', text : '아이디를 입력해주세요.'});
-          return;
-      }
+	    if (formData.userId.trim() === '') {
+	        setMessage({ type : 'error', text : '아이디를 입력해주세요.'});
+	        return;
+	    }
 	
-      if (formData.userPw.trim() === '') {
-          setMessage({ type : 'error', text : '비밀번호를 입력해주세요.'});
-          return;
-      }
+	    if (formData.userPw.trim() === '') {
+	        setMessage({ type : 'error', text : '비밀번호를 입력해주세요.'});
+	        return;
+	    }
 
-    api.post('/api/user/login', formData)
-    .then(response => {
-        // response의 data를 가져온다
-        const { accessToken } = response.data;
+    axios.post('/api/user/login', formData)
+        .then(response => {
+            // response의 data를 가져온다
+            const { accessToken } = response.data;
 
-        // localStorage에 'token'이라는 이름으로 accessToken을 저장
-        localStorage.setItem('token', accessToken);
+            // localStorage에 'token'이라는 이름으로 accessToken을 저장
+            localStorage.setItem('token', accessToken);
 
-        // jwt-decode로 accessToken을 해독
-        const decodeToken = jwtDecode(accessToken);
+            // jwt-decode로 accessToken을 해독
+            const decodeToken = jwtDecode(accessToken);
+            console.log("decode ::  " + JSON.stringify(decodeToken));
 
-        // 해독한 accessToken에서 권한정보를 꺼냄
-        const roles = decodeToken.auth;
+            // 해독한 accessToken에서 권한정보를 꺼냄
+            const roles = decodeToken.auth;
+            console.log("role ::  " + roles);
 
-        navigate('/');  
-    })
-    .catch(error => {
-      console.log("ERROR...   " + error.response.data);
-      if (error.response) {
-          setMessage({ type : 'error', text : error.response.data });
-      } else {
-          setMessage({ type : 'error', text : '네트워크 오류가 발생했습니다.'});
-      }
-    });
+            // 권한에 따라 페이지 이동 분기
+            if (roles && roles.includes('ROLE_ADMIN')) {    // 관리자일 때
+                navigate('/mngr/user-list');
+            } else {    // 일반 사용자일 때
+                navigate('/');  
+            }
+        })
+        .catch(error => {
+          console.log("ERROR...   " + error.response.data);
+          if (error.response) {
+              setMessage({ type : 'error', text : error.response.data });
+          } else {
+              setMessage({ type : 'error', text : '네트워크 오류가 발생했습니다.'});
+          }
+        });
 }
 
 return (

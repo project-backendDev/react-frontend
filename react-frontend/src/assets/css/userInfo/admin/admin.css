@@ -2,7 +2,7 @@
 :root {
   --sidebar-width: 250px;
   --header-height: 57px;
-  --footer-height: 57px;
+  --footer-height: 15px;
   --primary: #007bff;
   --dark: #343a40;
   --white: #ffffff;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom'; 
 import { useNavigate } from 'react-router-dom'; 
 import api from '../../common/api/AxiosConfig';
+import Pagination from '../../common/Pagination';
 
 function UserList() {
   const navigate = useNavigate();
@@ -13,10 +14,48 @@ function UserList() {
   // const [users, setUsers] = useState([]);
   const [checkList, setCheckList] = useState([]); // 체크된 회원 ID 리스트
 
+  // 현재 페이지
+  const [page, setPage] = useState(1);
+  // 전체 페이지 수
+  const [totalPage, setTotalPage] = useState(0);
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
+  // 26.02.10 페이징을 추가한 회원정보 조회 API
+  const fetchUsers = (pageNumber = 1) => {
+    const sendPage = (pageNumber > 0) ? pageNumber - 1 : 0;
+
+    api.get('/api/mngr/user-list', {
+      params : {
+        page : sendPage,  // 페이지 번호
+        size : 5         // 한 페이지에 보여줄 갯수
+      }
+    })
+    .then(response => {
+      // console.log(JSON.stringify(response.data));
+      setUserList(response.data.content);
+
+      if (response.data.page) { // 전체 페이지 수 세팅
+        setTotalPage(response.data.page.totalPages);
+      } else {  // 데이터가 없으면
+        setTotalPage(0);
+      }
+    })
+    .catch(error => {
+        setError("회원 목록을 불러오는데 실패했습니다.");
+        setLoading(false);
+
+        // 권한 체크 또는 토큰 만료 처리
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          alert("관리자만 접근이 가능합니다.");
+          navigate("/");
+        }
+    });
+  };
+
+  /* 26.02.10 페이징 처리를 추가하기 위해 메소드 주석처리
   // 회원정보 조회 API
   const fetchUsers = () => {
 
@@ -36,6 +75,7 @@ function UserList() {
         }
     });
   };
+  */
 
   // 체크박스 선택/해제
   const handleCheck = (checked, id) => {
@@ -186,6 +226,8 @@ function UserList() {
             </div>
           </div>
         </div>
+        {/* 페이징처리 */}
+        <Pagination page={page} totalPage={totalPage} setPage={setPage} />
       </div>
     </div>
   </>
