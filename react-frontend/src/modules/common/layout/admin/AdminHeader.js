@@ -1,3 +1,4 @@
+import { jwtDecode } from 'jwt-decode';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -6,6 +7,12 @@ function AdminHeader({ onToggleSidebar }) {
 
   const navigate = useNavigate();
 
+  // 로그인 상태 확인 (localStorage에 'token'이 있는지)
+  const isLoggedIn = !!localStorage.getItem('token');
+
+  const decodeToken = jwtDecode(localStorage.getItem('token'));
+  console.log("token    ::  " + decodeToken.role);
+
   const handleLogout = () => {
     const isConfirm = window.confirm('로그아웃 하시겠습니까?');
 
@@ -13,7 +20,7 @@ function AdminHeader({ onToggleSidebar }) {
       // localStorage에서 token 삭제
       localStorage.removeItem('token');
       alert('로그아웃 되었습니다.');
-      navigate('/');
+      navigate('/mngr/login');
     }
   }
 

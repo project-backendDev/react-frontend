@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import '../../../assets/css/userInfo/user/EditProfile.css';
+import api from '../../common/api/AxiosConfig';
+
 
 function EditProfile() {
     const navigate = useNavigate();
@@ -14,20 +15,8 @@ function EditProfile() {
     const [message, setMessage] = useState({ type : '', text : '' });
 
     useEffect(() => {
-        // LocalStorage에서 토큰 정보 가져옴
-        const token = localStorage.getItem('token');
 
-        if (!token) {
-            alert("로그인 후 이용이 가능합니다.");
-            navigate("/login");
-            return;
-        }
-
-        axios.get('/api/user/me', {
-            headers : {
-                'Authorization' : `Bearer ${token}`
-            }
-        })
+        api.get('/api/user/me')
         .then(response => {
             console.log("TRUE!!!");
             const { userId, userNm, userEmail } = response.data;
@@ -71,11 +60,7 @@ function EditProfile() {
             userEmail: formData.userEmail
         };
 
-        axios.put('/api/user/me', requestData, {
-          headers : {
-              'Authorization' : `Bearer ${token}`
-          }
-        })
+        api.put('/api/user/me', requestData)
         .then(response => {
             setMessage({ type: 'success', text: response.data });
             alert('회원정보가 성공적으로 수정되었습니다.');
@@ -86,7 +71,7 @@ function EditProfile() {
                 setMessage({ type: 'error', text: error.response.data });
             } else {
                 setMessage({ type: 'error', text: '네트워크 오류가 발생했습니다.' });
-      }
+            }
         });
     }
 
@@ -97,33 +82,19 @@ function EditProfile() {
 
     // 회원탈퇴 핸들러
     const handleDelete = () => {
-      if (!window.confirm('정말로 회원탈퇴를 하시겠습니까?\n탈퇴 후 복구가 불가능합니다.')) {
-        return;
-      }
-
-       // LocalStorage에서 토큰 정보 가져옴
-        const token = localStorage.getItem('token');
-
-        if (!token) {
-            alert("로그인 후 이용이 가능합니다.");
-            navigate("/login");
+        if (!window.confirm('정말로 회원탈퇴를 하시겠습니까?\n탈퇴 후 복구가 불가능합니다.')) {
             return;
         }
 
-        axios.delete('/api/user/me', {
-          headers : {
-              'Authorization' : `Bearer ${token}`
-          }
-        })
+        api.delete('/api/user/me')
         .then(response => {
-          alert('회원탈퇴가 성공적으로 완료되었습니다.');
-          localStorage.removeItem('token'); // 회원탈퇴 후 토큰 삭제
-          navigate('/');
+            alert(response.data); // '회원탈퇴가 완료되었습니다' 멘트 표출
+            localStorage.removeItem('token'); // 회원탈퇴 후 토큰 삭제
+            navigate('/');
         })
         .catch(error => {
-          const errorText = (error.response && error.response.data.message) ? error.response.data.message : '탈퇴 처리 중 오류가 발생했습니다.';
-                
-          setMessage({ type: 'error', text: errorText });
+            const errorText = (error.response && error.response.data.message) ? error.response.data.message : '탈퇴 처리 중 오류가 발생했습니다.';
+            setMessage({ type: 'error', text: errorText });
         })
     }
 
@@ -131,85 +102,37 @@ return (
         <div className="profile-form-container">
             <h2 className="profile-form-title">회원정보 수정</h2>
 
-            {message.text && (
-                <div className={`profile-form-message ${message.type === 'error' ? 'error' : 'success'}`}>
-                    {message.text}
-                </div>
-            )}
+            { message.text && <div className={`profile-form-message ${message.type === 'error' ? 'error' : 'success'}`}> {message.text} </div> }
 
-            {loading ? (
-                <p style={{ textAlign: 'center' }}>데이터를 불러오는 중입니다...</p>
-            ) : (
+            { loading ? 
+                <p style={{ textAlign: 'center' }}>데이터를 불러오는 중입니다...</p> 
+                : 
                 <form onSubmit={handleSubmit} className="profile-form-body">
-                    
-                    {/* 아이디 (수정 불가) */}
                     <div className="profile-input-group">
                         <label htmlFor="userId">아이디 (수정 불가)</label>
-                        <input
-                            type="text"
-                            id="userId"
-                            name="userId"
-                            className="profile-form-input"
-                            value={formData.userId}
-                            disabled
-                        />
+                        <input type="text" id="userId" name="userId" className="profile-form-input" value={formData.userId} disabled />
                     </div>
-
-                    {/* 이름 */}
                     <div className="profile-input-group">
                         <label htmlFor="userNm">이름</label>
-                        <input
-                            type="text"
-                            id="userNm"
-                            name="userNm"
-                            className="profile-form-input"
-                            value={formData.userNm} 
-                            onChange={handleChange} 
-                            required
-                        />
+                        <input type="text" id="userNm" name="userNm" className="profile-form-input" value={formData.userNm} onChange={handleChange} required />
                     </div>
-
-                    {/* 이메일 */}
                     <div className="profile-input-group">
                         <label htmlFor="userEmail">이메일</label>
-                        <input
-                            type="email"
-                            id="userEmail"
-                            name="userEmail"
-                            className="profile-form-input"
-                            value={formData.userEmail}
-                            onChange={handleChange} 
-                            required
-                        />
+                        <input type="email" id="userEmail" name="userEmail" className="profile-form-input" value={formData.userEmail} onChange={handleChange} required />
                     </div>
-
-                    {/* [수정] 버튼 그룹 */}
                     <div className="profile-button-group">
-                        {/* 정보 수정 버튼 */}
                         <button type="submit" className="profile-form-button">
                             정보 수정
                         </button>
-                        
-                        {/* 취소 버튼 */}
-                        <button 
-                            type="button" // submit 방지
-                            className="profile-form-button cancel-button"
-                            onClick={handleCancel}
-                        >
-                            취소
-                        </button>
-                        
-                        {/* 회원탈퇴 버튼 */}
-                        <button 
-                            type="button" // submit 방지
-                            className="profile-form-button withdraw-button"
-                            onClick={handleDelete}
-                        >
+                        <button type="button" className="profile-form-button withdraw-button" onClick={handleDelete} >
                             회원탈퇴
+                        </button>
+                        <button type="button" className="profile-form-button cancel-button" onClick={handleCancel}>
+                            취소
                         </button>
                     </div>
                 </form>
-            )}
+            }
         </div>
     );
 }

@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+// import api from '../../common/api/AxiosConfig';
 
 /**
  * 일반 사용자용 헤더
@@ -12,7 +14,21 @@ function UserHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // 로그인 상태 확인 (localStorage에 'token'이 있는지)
-  const isLoggedIn = !!localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  const isLoggedIn = !!token;
+  let isAdmin = false;
+
+  if (isLoggedIn) {
+    try {
+      const decodeToken = jwtDecode(token);
+
+      if (decodeToken.auth && decodeToken.auth.includes('ROLE_ADMIN')) {
+        isAdmin = true;
+      }
+    } catch (e) {
+      console.error("오류발생   ::  " + e);
+    }
+  }
 
   // 로그아웃 핸들러
   const handleLogout = () => {
@@ -54,11 +70,9 @@ function UserHeader() {
 
         {/* 네비게이션 링크 (PC에서는 항상 노출, Tablet / Mobile에선 토글됨) */}
         <nav className="nav-links">
-          {isLoggedIn ? (
+          { isLoggedIn ? (
             <>
-              {/* 관리자 페이지 링크 (예시) */}
-              <Link to="/confirmPassword" onClick={handleLinkClick}>회원정보수정</Link>
-              {/* 로그아웃 (Link가 아닌 a 태그나 button 사용) */}
+              { isAdmin ? <Link to="/mngr/userList" onClick={handleLinkClick}>관리자페이지로 이동</Link> : <Link to="/confirmPassword" onClick={handleLinkClick}>회원정보수정</Link> }
               <a href="#!" onClick={handleLogout} style={{ cursor: 'pointer' }}>
                 로그아웃
               </a>

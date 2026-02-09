@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
 import '../../../assets/css/userInfo/user/SignUp.css'; 
+import api from '../../common/api/AxiosConfig'
 
 function SignUp() {
   // 페이지 이동 함수를 선언
@@ -86,85 +86,54 @@ function SignUp() {
       userEmail: formData.userEmail
     };
 
-    axios.post('/api/user/signup', requestData)
-      .then(response => {
-            // 성공 시
-            setMessage({ type: 'success', text: response.data });
-            alert(response.data); // '회원가입이 완료되었습니다.' 멘트 표출
-            navigate('/'); // 메인페이지로 이동
-        })
-        .catch(err => {
-            // 실패 시
-            if (err.response) {
-                // Spring Boot가 보낸 에러 메시지
-                setMessage({ type: 'error', text: err.response.data });
-            } else {
-                setMessage({ type: 'error', text: '네트워크 오류: 서버에 연결할 수 없습니다.' });
-            }
-        });
+    api.post('/api/user/signup', requestData)
+    .then(response => {
+        // 성공 시
+        setMessage({ type: 'success', text: response.data });
+        alert(response.data); // '회원가입이 완료되었습니다.' 멘트 표출
+        navigate('/'); // 메인페이지로 이동
+    })
+    .catch(err => {
+        // 실패 시
+        if (err.response) {
+            // Spring Boot가 보낸 에러 메시지
+            setMessage({ type: 'error', text: err.response.data });
+        } else {
+            setMessage({ type: 'error', text: '네트워크 오류: 서버에 연결할 수 없습니다.' });
+        }
+    });
 };
 
   return (
     <div className="form-container">
       <h2 className="form-title">회원가입</h2>
 
-      {/* 서버 응답 메시지 표시 */}
-      {message.text && (
-        <div className={`form-message ${message.type === 'error' ? 'error' : 'success'}`}>
-          {message.text}
-        </div>
-      )}
+      { message.text && <div className={`form-message ${message.type === 'error' ? 'error' : 'success'}`}> {message.text} </div> }
 
-      {/* 폼 렌더링 */}
       <form onSubmit={handleSubmit} className="form-body">
         <div className="input-group">
           <label htmlFor="userId">아이디</label>
-          <input
-            type="text" id="userId" name="userId"
-            className="form-input"
-            value={formData.userId}
-            onChange={handleChange}
-          />
+          <input type="text" id="userId" name="userId" className="form-input" value={formData.userId} onChange={handleChange} />
         </div>
 
         <div className="input-group">
           <label htmlFor="userPw">비밀번호</label>
-          <input
-            type="password" id="userPw" name="userPw"
-            className="form-input"
-            value={formData.userPw}
-            onChange={handleChange}
-          />
+          <input type="password" id="userPw" name="userPw" className="form-input" value={formData.userPw} onChange={handleChange} />
         </div>
 
         <div className="input-group">
           <label htmlFor="pwCheck">비밀번호 확인</label>
-          <input
-            type="password" id="pwCheck" name="pwCheck"
-            className="form-input"
-            value={formData.pwCheck}
-            onChange={handleChange}
-          />
+          <input type="password" id="pwCheck" name="pwCheck" className="form-input" value={formData.pwCheck} onChange={handleChange} />
         </div>
 
         <div className="input-group">
           <label htmlFor="userNm">이름</label>
-          <input
-            type="text" id="userNm" name="userNm"
-            className="form-input"
-            value={formData.userNm}
-            onChange={handleChange}
-          />
+          <input type="text" id="userNm" name="userNm" className="form-input" value={formData.userNm} onChange={handleChange} />
         </div>
 
         <div className="input-group">
           <label htmlFor="userEmail">이메일</label>
-          <input
-            type="email" id="userEmail" name="userEmail"
-            className="form-input"
-            value={formData.userEmail}
-            onChange={handleChange}
-          />
+          <input type="email" id="userEmail" name="userEmail" className="form-input" value={formData.userEmail} onChange={handleChange} />
         </div>
 
         <button type="submit" className="form-button signup">

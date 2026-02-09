@@ -23,7 +23,7 @@ function AdminSidebar() {
             </li>
 
             <li className="nav-item">
-              <NavLink to="/admin/users" className="nav-link">
+              <NavLink to="/mngr/userList" className="nav-link">
                 <i className="nav-icon fas fa-users"></i>
                 <p>회원 관리</p>
               </NavLink>
