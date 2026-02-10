@@ -14,27 +14,24 @@ function UserList() {
   // const [users, setUsers] = useState([]);
   const [checkList, setCheckList] = useState([]); // 체크된 회원 ID 리스트
 
-  // 현재 페이지
-  const [page, setPage] = useState(1);
   // 전체 페이지 수
   const [totalPage, setTotalPage] = useState(0);
+  // 현재 페이지
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers(page);
+  }, [page]);
 
   // 26.02.10 페이징을 추가한 회원정보 조회 API
-  const fetchUsers = (pageNumber = 1) => {
-    const sendPage = (pageNumber > 0) ? pageNumber - 1 : 0;
-
+  const fetchUsers = (pageNumber) => {
     api.get('/api/mngr/user-list', {
       params : {
-        page : sendPage,  // 페이지 번호
-        size : 5         // 한 페이지에 보여줄 갯수
+        page : pageNumber,  // 페이지 번호
+        size : 5            // 한 페이지에 보여줄 갯수
       }
     })
     .then(response => {
-      // console.log(JSON.stringify(response.data));
       setUserList(response.data.content);
 
       if (response.data.page) { // 전체 페이지 수 세팅
@@ -109,7 +106,9 @@ function UserList() {
     api.delete('/api/mngr/user')
     .then(response => {
       alert(response.data);
-      fetchUsers(); // 삭제 완료 후 회원 리스트를 다시 불러옴
+      fetchUsers(page); // 삭제 완료 후 회원 리스트를 다시 불러옴
+
+      setCheckList([]); // 체크박스 초기화
     })
     .catch(error => {
       console.error(error);
@@ -142,34 +141,44 @@ function UserList() {
           <div className="card-body p-0">
             <div className="table-responsive">
               <table className="table table-hover table-striped">
+                <colgroup>
+                  <col style={{ width: '5%' }} />
+                  <col style={{ width: '5%' }} />
+                  <col style={{ width: '10%' }} />
+                  <col style={{ width: '10%' }} />
+                  <col style={{ width: '20%' }} />
+                  <col style={{ width: '10%' }} />
+                  <col style={{ width: '10%' }} />
+                  <col style={{ width: '15%' }} />
+                  <col style={{ width: '15%' }} />
+                </colgroup>
                 <thead>
                   <tr>
-                    {/* [전체 체크박스] */}
-                    <th style={{ width: '5%' }}>
+                    <th>
                       <input type="checkbox" name="allCheck" onChange={(e) => handleAllCheck(e.target.checked)} checked={userList.length > 0 && checkList.length === userList.length} />
                     </th>
-                    <th style={{ width: '5%' }}>
+                    <th>
                       번호
                     </th>
-                    <th style={{ width: '15%' }}>
+                    <th>
                       아이디
                     </th>
-                    <th style={{ width: '15%' }}>
+                    <th>
                       이름
                     </th>
-                    <th style={{ width: '20%' }}>
+                    <th>
                       이메일
                     </th>
-                    <th style={{ width: '10%' }}>
+                    <th>
                       권한
                     </th>
-                    <th style={{ width: '10%' }}>
+                    <th>
                       상태
                     </th> 
-                    <th style={{ width: '10%' }}>
+                    <th>
                       가입일
                     </th>
-                    <th style={{ width: '10%' }}>
+                    <th>
                       관리
                     </th>
                   </tr>
@@ -196,7 +205,7 @@ function UserList() {
                         </td>
                         {/* 계정상태 (Y -> 활성 / N -> 정지) */}
                         <td>
-                          { user.status === 'Y' ? <span className="badge badge-success">활성</span> : <span className="badge badge-secondary">정지</span> }
+                          { user.status === 'Y' ? <span className="badge badge-success">활성</span> : <span className="badge badge-secondary" style={{ color: 'red' }}>정지</span> }
                         </td>
                         {/* 가입일 */}
                         <td>

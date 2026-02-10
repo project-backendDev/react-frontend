@@ -53,7 +53,7 @@ function Login() {
 
             // 권한에 따라 페이지 이동 분기
             if (roles && roles.includes('ROLE_ADMIN')) {    // 관리자일 때
-                navigate('/mngr/user-list');
+                navigate('/mngr/userList');
             } else {    // 일반 사용자일 때
                 navigate('/');  
             }

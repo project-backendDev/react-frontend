@@ -57,7 +57,7 @@ function App() {
             <Route path="/mngr" element={<AdminLayout />}>
               
               {/* /mngr/userList 경로에 UserList '내용'을 렌더링 */}
-              <Route path="user-list" element={<UserList />} /> 
+              <Route path="userList" element={<UserList />} /> 
 
               {/* /mngr/userDetail 경로에 단일 User 데이터를 렌더링 */}
               <Route path="userDetail/:userId" element={<UserDetail />} />

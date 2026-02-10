@@ -35,7 +35,7 @@
 }
 
 /* 3. 태블릿/PC (992px 이상) */
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .admin-layout-wrapper {
     grid-template-areas:
       "header header"
