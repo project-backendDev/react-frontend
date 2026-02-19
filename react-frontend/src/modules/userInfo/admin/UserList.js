@@ -25,7 +25,7 @@ function UserList() {
 
   // 26.02.10 페이징을 추가한 회원정보 조회 API
   const fetchUsers = (pageNumber) => {
-    api.get('/api/mngr/user-list', {
+    api.get(`/api/mngr/user-list`, {
       params : {
         page : pageNumber,  // 페이지 번호
         size : 5            // 한 페이지에 보여줄 갯수
@@ -95,15 +95,17 @@ function UserList() {
   // 회원 삭제 API
   const handleDelete = (checkIds) => {
     if (checkIds.length === 0) {
-      alert("삭제할 회원을 선택해주세요.");
+      alert(`삭제할 회원을 선택해주세요.`);
       return;
     }
 
-    if (!window.confirm(`${checkIds.length} 명의 회원을 삭제하시겠습니까?`)) {
+    if (!window.confirm(`${checkIds.length}명의 회원을 삭제하시겠습니까?`)) {
       return;
     }
 
-    api.delete('/api/mngr/user')
+    api.delete(`/api/mngr/user`, {
+      data : { userIds : checkIds } // 체크한 유저의 데이터
+    })
     .then(response => {
       alert(response.data);
       fetchUsers(page); // 삭제 완료 후 회원 리스트를 다시 불러옴
