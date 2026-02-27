@@ -11,6 +11,7 @@ import MainPage from './modules/main/MainPage';
 import SignUp from './modules/userInfo/user/SignUp';
 import Login from './modules/login/user/Login';
 import EditProfile from './modules/userInfo/user/EditProfile';
+import KakaoCallback from './modules/login/user/KakaoCallback';
 
 // [관리자]
 import AdminLayout from './modules/common/layout/admin/AdminLayout';
@@ -37,6 +38,9 @@ function App() {
 
           {/* 로그인 페이지 */}
           <Route path="/login" element={<Login />} />
+
+          {/* 카카오 로그인 */}
+          <Route path="/login/oauth2/callback/kakao" element={<KakaoCallback />} />
 
           {/* 공통 라우트 [토큰 확인이 필요한 부분에서만 사용] */}
           <Route element={<PrivateRoute />}>

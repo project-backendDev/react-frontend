@@ -9,6 +9,9 @@ function Login() {
     const [formData, setFormData] = useState({ userId: '', userPw: '' });
     const [message, setMessage] = useState({ type: '', text: '' });
     
+    const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+    const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+    
     const handleChange = (e) => {
         // e.target: 이벤트가 발생한 DOM 요소 (여기서는 <input>)
         const { name, value } = e.target;
@@ -18,6 +21,13 @@ function Login() {
         // [name] (계산된 속성명): 'name' 변수의 값(예: "userId")을 key로 사용하여 'value'를 덮어씀
         setFormData(prev => ({ ...prev, [name]: value }));
     };
+
+    const handleKakaoLogin = () => {
+      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
+        
+        // 해당 URL로 페이지 이동
+        window.location.href = kakaoURL;
+    }
 
 	const handleSubmit = (e) => {
 	    // e.preventDefault(): 폼 제출 시 브라우저가 기본적으로 수행하는 "새로고침" 동작을 막습니다.
@@ -38,10 +48,12 @@ function Login() {
     axios.post('/api/user/login', formData)
         .then(response => {
             // response의 data를 가져온다
-            const { accessToken } = response.data;
+            const { accessToken, loginType } = response.data;
 
             // localStorage에 'token'이라는 이름으로 accessToken을 저장
             localStorage.setItem('token', accessToken);
+            // SNS 로그인은 개인정보수정을 이용할 필요가 없기에 차단하기 위해 'loginType'이라는 이름으로 저장
+            localStorage.setItem('loginType', loginType);
 
             // jwt-decode로 accessToken을 해독
             const decodeToken = jwtDecode(accessToken);
@@ -109,9 +121,31 @@ return (
         <button type="submit" className="login-form-button">
           로그인
         </button>
+
+        <button 
+          type="button" 
+          className="kakao-login-button" 
+          onClick={handleKakaoLogin}
+          style={{
+            width: '100%',
+            marginTop: '10px', // 일반 로그인 버튼과의 간격
+            backgroundColor: '#FEE500', // 카카오 공식 노란색
+            color: '#191919',
+            padding: '12px',
+            border: 'none',
+            borderRadius: '5px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          카카오 로그인
+        </button>
       </form>
 
-      {/* 7-3. 회원가입 페이지로 이동하는 링크(<Link>) */}
       <div className="login-toggle-link-container">
         <Link to="/signup" className="login-toggle-link">
           아직 회원이 아니신가요? 회원가입
