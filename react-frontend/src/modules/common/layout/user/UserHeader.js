@@ -15,6 +15,8 @@ function UserHeader() {
 
   // 로그인 상태 확인 (localStorage에 'token'이 있는지)
   const token = localStorage.getItem('token');
+  // 로그인 구분 확인
+  const loginType = localStorage.getItem('loginType');
   const isLoggedIn = !!token;
   let isAdmin = false;
 
@@ -72,7 +74,14 @@ function UserHeader() {
         <nav className="nav-links">
           { isLoggedIn ? (
             <>
-              { isAdmin ? <Link to="/mngr/userList" onClick={handleLinkClick}>관리자페이지로 이동</Link> : <Link to="/confirmPassword" onClick={handleLinkClick}>회원정보수정</Link> }
+              { isAdmin && (
+                <Link to="/mngr/userList" onClick={handleLinkClick}>관리자페이지로 이동</Link>
+              )}
+
+              { !isAdmin && loginType === 'SITE' && (
+                <Link to="/confirmPassword" onClick={handleLinkClick}>회원정보수정</Link>
+              )}
+
               <a href="#!" onClick={handleLogout} style={{ cursor: 'pointer' }}>
                 로그아웃
               </a>
